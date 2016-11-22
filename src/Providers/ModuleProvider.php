@@ -22,6 +22,16 @@ class ModuleProvider extends ServiceProvider
             \File::delete(config('webed-caching.repository.store_keys'));
             \File::delete(storage_path('framework/cache/cache-service.json'));
         });
+
+        $this->publishes([
+            __DIR__ . '/../../resources/views' => config('view.paths')[0] . '/vendor/webed-caching',
+        ], 'views');
+        $this->publishes([
+            __DIR__ . '/../../resources/lang' => base_path('resources/lang/vendor/webed-caching'),
+        ], 'lang');
+        $this->publishes([
+            __DIR__ . '/../../config' => base_path('config'),
+        ], 'config');
     }
 
     /**
@@ -33,16 +43,6 @@ class ModuleProvider extends ServiceProvider
     {
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(BootstrapModuleServiceProvider::class);
-
-        $this->publishes([
-            __DIR__ . '/../../resources/views' => config('view.paths')[0] . '/vendor/webed-caching',
-        ], 'views');
-        $this->publishes([
-            __DIR__ . '/../../resources/lang' => base_path('resources/lang/vendor/webed-caching'),
-        ], 'lang');
-        $this->publishes([
-            __DIR__ . '/../../config' => base_path('config'),
-        ], 'config');
 
         $this->mergeConfigFrom(__DIR__ . '/../../config/webed-caching.php', 'webed-caching');
 
