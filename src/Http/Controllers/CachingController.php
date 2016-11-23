@@ -10,8 +10,6 @@ class CachingController extends BaseAdminController
     {
         parent::__construct();
 
-        $this->middleware('has-permission:view-caching');
-
         $this->breadcrumbs->addLink('Caching', route('admin::webed-caching.index.get'));
 
         $this->getDashboardMenu($this->module);
@@ -36,8 +34,6 @@ class CachingController extends BaseAdminController
      */
     public function getClearCmsCache()
     {
-        $this->middleware('has-permission:clear-cache');
-
         \Artisan::call('cache:clear');
 
         $this->flashMessagesHelper
@@ -52,8 +48,6 @@ class CachingController extends BaseAdminController
      */
     public function getRefreshCompiledViews()
     {
-        $this->middleware('has-permission:clear-cache');
-
         \Artisan::call('view:clear');
 
         $this->flashMessagesHelper
