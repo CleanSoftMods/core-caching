@@ -198,7 +198,7 @@ class CacheService implements CacheServiceContract
         if (!isset($cacheKeys[$className]) || !in_array($currentCacheKey, $cacheKeys[$className])) {
             if ($currentCacheKey) {
                 $cacheKeys[$className][] = $currentCacheKey;
-                file_put_contents($file, json_encode_pretify($cacheKeys));
+                file_put_contents($file, json_encode_prettify($cacheKeys));
             }
         }
 
