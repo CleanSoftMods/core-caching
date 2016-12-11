@@ -65,17 +65,6 @@ trait EloquentBaseMethodsCache
     }
 
     /**
-     * Order by random
-     * @param bool $enable
-     * @return $this
-     */
-    public function orderByRandom($enable = true)
-    {
-        call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
-        return $this;
-    }
-
-    /**
      * Join to other table
      * @param $joinTo
      * @param $firstTableField
