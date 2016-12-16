@@ -36,7 +36,7 @@ return [
         | Default: -1
         |
         */
-        'lifetime' => -1,
+        'lifetime' => env('CACHE_REPOSITORY_LIFETIME', -1),
 
         /*
         |--------------------------------------------------------------------------

@@ -48,7 +48,7 @@ abstract class AbstractRepositoryCacheDecorator implements BaseMethodsContract
     }
 
     /**
-     * @return AbstractBaseRepository|Traits\Cacheable
+     * @return AbstractBaseRepository|Cacheable
      */
     final public function getRepository()
     {
@@ -63,16 +63,13 @@ abstract class AbstractRepositoryCacheDecorator implements BaseMethodsContract
         return $this->cache;
     }
 
+    /**
+     * @param $lifetime
+     * @return $this
+     */
     final public function setCacheLifetime($lifetime)
     {
         $this->cache->setCacheLifetime($lifetime);
-
-        return $this;
-    }
-
-    final public function setCacheFile($file)
-    {
-        $this->cache->setCacheFile($file);
 
         return $this;
     }
