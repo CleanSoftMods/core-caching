@@ -37,17 +37,6 @@ abstract class AbstractRepositoryCacheDecorator implements BaseMethodsContract
     }
 
     /**
-     * When called to an inaccessable method => try to call method in repository
-     * @param string $method
-     * @param array $parameters
-     * @return mixed
-     */
-    public function __call($method, $parameters)
-    {
-        return call_user_func_array([$this->repository, $method], $parameters);
-    }
-
-    /**
      * @return AbstractBaseRepository|Cacheable
      */
     final public function getRepository()
