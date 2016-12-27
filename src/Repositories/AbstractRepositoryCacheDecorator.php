@@ -39,15 +39,20 @@ abstract class AbstractRepositoryCacheDecorator implements BaseMethodsContract
     /**
      * @return AbstractBaseRepository|Cacheable
      */
-    final public function getRepository()
+    public function getRepository()
     {
         return $this->repository;
+    }
+
+    public function getModel()
+    {
+        return $this->repository->getModel();
     }
 
     /**
      * @return \WebEd\Base\Caching\Services\CacheService
      */
-    final public function getCacheInstance()
+    public function getCacheInstance()
     {
         return $this->cache;
     }
@@ -56,7 +61,7 @@ abstract class AbstractRepositoryCacheDecorator implements BaseMethodsContract
      * @param $lifetime
      * @return $this
      */
-    final public function setCacheLifetime($lifetime)
+    public function setCacheLifetime($lifetime)
     {
         $this->cache->setCacheLifetime($lifetime);
 
@@ -68,7 +73,7 @@ abstract class AbstractRepositoryCacheDecorator implements BaseMethodsContract
      * @param $parameters
      * @return mixed
      */
-    final public function beforeGet($method, $parameters)
+    public function beforeGet($method, $parameters)
     {
         $this->cache->setCacheKey($method, $parameters);
 
@@ -83,7 +88,7 @@ abstract class AbstractRepositoryCacheDecorator implements BaseMethodsContract
      * @param bool $flushCache
      * @return mixed
      */
-    final public function afterUpdate($method, $parameters, $flushCache = true)
+    public function afterUpdate($method, $parameters, $flushCache = true)
     {
         $result = call_user_func_array([$this->repository, $method], $parameters);
 
