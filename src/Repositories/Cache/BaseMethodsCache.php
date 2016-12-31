@@ -2,7 +2,7 @@
 
 use WebEd\Base\Core\Models\EloquentBase;
 
-trait EloquentBaseMethodsCache
+trait BaseMethodsCache
 {
     /**
      * Eager loading

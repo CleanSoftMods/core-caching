@@ -1,15 +1,18 @@
 <?php namespace WebEd\Base\Caching\Repositories;
 
+use WebEd\Base\Caching\Repositories\Cache\SoftDeletesCache;
 use WebEd\Base\Core\Repositories\AbstractBaseRepository;
 use WebEd\Base\Core\Repositories\Contracts\BaseMethodsContract;
 
-use WebEd\Base\Caching\Repositories\Cache\EloquentBaseMethodsCache;
+use WebEd\Base\Caching\Repositories\Cache\BaseMethodsCache;
 use WebEd\Base\Caching\Services\Contracts\CacheableContract;
 use WebEd\Base\Caching\Repositories\Traits\Cacheable;
 
 abstract class AbstractRepositoryCacheDecorator implements BaseMethodsContract
 {
-    use EloquentBaseMethodsCache;
+    use BaseMethodsCache;
+
+    use SoftDeletesCache;
 
     /**
      * @var AbstractBaseRepository|Cacheable
