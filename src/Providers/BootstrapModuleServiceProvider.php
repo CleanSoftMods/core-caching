@@ -44,6 +44,7 @@ class BootstrapModuleServiceProvider extends ServiceProvider
             'font_icon' => 'fa fa-circle-o',
             'link' => route('admin::webed-caching.index.get'),
             'css_class' => null,
+            'permissions' => ['view-cache'],
         ]);
     }
 }
