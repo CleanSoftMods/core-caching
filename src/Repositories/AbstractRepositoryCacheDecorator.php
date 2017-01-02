@@ -17,12 +17,12 @@ abstract class AbstractRepositoryCacheDecorator implements BaseMethodsContract
     /**
      * @var AbstractBaseRepository|Cacheable
      */
-    private $repository;
+    protected $repository;
 
     /**
      * @var \WebEd\Base\Caching\Services\CacheService
      */
-    private $cache;
+    protected $cache;
 
     /**
      * @param CacheableContract $repository
@@ -78,6 +78,10 @@ abstract class AbstractRepositoryCacheDecorator implements BaseMethodsContract
      */
     public function beforeGet($method, $parameters)
     {
+        if ($this->needIgnoreCache()) {
+            return call_user_func_array([$this->repository, $method], $parameters);
+        }
+
         $this->cache->setCacheKey($method, $parameters);
 
         return $this->cache->retrieveFromCache(function () use ($method, $parameters) {
@@ -98,6 +102,18 @@ abstract class AbstractRepositoryCacheDecorator implements BaseMethodsContract
         if ($flushCache === true && is_array($result) && isset($result['error']) && !$result['error']) {
             $this->cache->flushCache();
         }
+
         return $result;
+    }
+
+    public function needIgnoreCache()
+    {
+        $queryBuilderData = $this->getQueryBuilderData();
+
+        if (!empty($queryBuilderData['with'])) {
+            return true;
+        }
+
+        return false;
     }
 }
