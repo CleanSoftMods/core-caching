@@ -37,7 +37,7 @@ class BootstrapModuleServiceProvider extends ServiceProvider
     {
         \DashboardMenu::registerItem([
             'id' => 'webed-caching',
-            'piority' => 2,
+            'priority' => 2,
             'parent_id' => 'webed-configuration',
             'heading' => null,
             'title' => 'Caching',
