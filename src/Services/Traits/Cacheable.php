@@ -1,4 +1,4 @@
-<?php namespace WebEd\Base\Caching\Repositories\Traits;
+<?php namespace WebEd\Base\Caching\Services\Traits;
 
 trait Cacheable
 {
@@ -6,7 +6,7 @@ trait Cacheable
      * Determine when enabled cache for query
      * @var bool
      */
-    private $cacheEnabled;
+    protected $cacheEnabled;
 
     /**
      * @return bool
@@ -26,7 +26,7 @@ trait Cacheable
      */
     public function withCache($bool = true)
     {
-        $this->cacheEnabled = (bool)$bool;
+        $this->cacheEnabled = !!$bool;
 
         return $this;
     }

@@ -7,4 +7,10 @@ interface CacheableContract
      * @var bool
      */
     public function isUseCache();
+
+    /**
+     * @param bool $bool
+     * @return $this
+     */
+    public function withCache($bool = true);
 }

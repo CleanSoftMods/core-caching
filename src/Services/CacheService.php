@@ -94,7 +94,7 @@ class CacheService implements CacheServiceContract
      */
     private function _generateCacheHash($args)
     {
-        return md5(json_encode($args));
+        return md5(serialize($args));
     }
 
     /**
@@ -217,7 +217,7 @@ class CacheService implements CacheServiceContract
             $cacheKey = $this->getCacheKey();
             $cacheDriver = $this->getCacheDriver();
 
-            $result = ($lifetime === -1)
+            $result = ($lifetime < 0)
                 ? Cache::store($cacheDriver)->rememberForever($cacheKey, $closure)
                 : Cache::store($cacheDriver)->remember($cacheKey, $lifetime, $closure);
 

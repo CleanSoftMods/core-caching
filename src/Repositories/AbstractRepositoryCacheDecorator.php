@@ -1,16 +1,23 @@
 <?php namespace WebEd\Base\Caching\Repositories;
 
+use WebEd\Base\Caching\Repositories\Cache\ModelNeedValidateCache;
+use WebEd\Base\Caching\Repositories\Cache\RepositoryCache;
 use WebEd\Base\Caching\Repositories\Cache\SoftDeletesCache;
 use WebEd\Base\Core\Repositories\AbstractBaseRepository;
 use WebEd\Base\Core\Repositories\Contracts\BaseMethodsContract;
 
 use WebEd\Base\Caching\Repositories\Cache\BaseMethodsCache;
 use WebEd\Base\Caching\Services\Contracts\CacheableContract;
-use WebEd\Base\Caching\Repositories\Traits\Cacheable;
+use WebEd\Base\Caching\Services\Traits\Cacheable;
+use WebEd\Base\Core\Repositories\Contracts\ModelNeedValidateContract;
 
-abstract class AbstractRepositoryCacheDecorator implements BaseMethodsContract
+abstract class AbstractRepositoryCacheDecorator implements BaseMethodsContract, ModelNeedValidateContract, CacheableContract
 {
+    use RepositoryCache;
+
     use BaseMethodsCache;
+
+    use ModelNeedValidateCache;
 
     use SoftDeletesCache;
 
