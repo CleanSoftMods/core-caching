@@ -102,11 +102,11 @@ abstract class AbstractRepositoryCacheDecorator implements BaseMethodsContract, 
      * @param bool $flushCache
      * @return mixed
      */
-    public function afterUpdate($method, $parameters, $flushCache = true)
+    public function afterUpdate($method, $parameters, $flushCache = true, $forceFlush = false)
     {
         $result = call_user_func_array([$this->repository, $method], $parameters);
 
-        if ($flushCache === true && is_array($result) && isset($result['error']) && !$result['error']) {
+        if ($flushCache === true && ($forceFlush === true || (is_array($result) && isset($result['error']) && !$result['error']))) {
             $this->cache->flushCache();
         }
 
