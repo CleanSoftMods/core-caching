@@ -420,4 +420,16 @@ trait BaseMethodsCache
         call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
         return $this;
     }
+
+    /**
+     * Since 2017-01-06
+     */
+    /**
+     * @return $this
+     */
+    public function distinct()
+    {
+        call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
+        return $this;
+    }
 }
