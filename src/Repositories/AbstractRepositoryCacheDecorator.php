@@ -91,8 +91,15 @@ abstract class AbstractRepositoryCacheDecorator implements BaseMethodsContract, 
 
         $this->cache->setCacheKey($method, $parameters);
 
-        return $this->cache->retrieveFromCache(function () use ($method, $parameters) {
-            return call_user_func_array([$this->repository, $method], $parameters);
+        $repository = clone $this->repository;
+
+        /**
+         * Clear params
+         */
+        $this->repository->resetQuery();
+
+        return $this->cache->retrieveFromCache(function () use ($repository, $method, $parameters) {
+            return call_user_func_array([$repository, $method], $parameters);
         });
     }
 

@@ -404,7 +404,7 @@ trait BaseMethodsCache
      * @param $bool
      * @return $this
      */
-    public function inRandomOrder($bool)
+    public function inRandomOrder($bool = true)
     {
         call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
         return $this;
