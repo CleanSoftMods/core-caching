@@ -432,4 +432,15 @@ trait BaseMethodsCache
         call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
         return $this;
     }
+
+    /**
+     * Since 2017-01-13
+     */
+    /**
+     * @return integer
+     */
+    public function count()
+    {
+        return $this->beforeGet(__FUNCTION__, func_get_args());
+    }
 }
