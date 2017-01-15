@@ -2,7 +2,7 @@
 
 use WebEd\Base\Caching\Repositories\Cache\ModelNeedValidateCache;
 use WebEd\Base\Caching\Repositories\Cache\RepositoryCache;
-use WebEd\Base\Caching\Repositories\Cache\SoftDeletesCache;
+use WebEd\Base\Core\Models\Contracts\BaseModelContract;
 use WebEd\Base\Core\Repositories\AbstractBaseRepository;
 use WebEd\Base\Core\Repositories\Contracts\BaseMethodsContract;
 
@@ -10,16 +10,15 @@ use WebEd\Base\Caching\Repositories\Cache\BaseMethodsCache;
 use WebEd\Base\Caching\Services\Contracts\CacheableContract;
 use WebEd\Base\Caching\Services\Traits\Cacheable;
 use WebEd\Base\Core\Repositories\Contracts\ModelNeedValidateContract;
+use WebEd\Base\Core\Repositories\Contracts\QueryBuilderContract;
 
-abstract class AbstractRepositoryCacheDecorator implements BaseMethodsContract, ModelNeedValidateContract, CacheableContract
+abstract class AbstractRepositoryCacheDecorator implements BaseMethodsContract, ModelNeedValidateContract, QueryBuilderContract, CacheableContract
 {
     use RepositoryCache;
 
     use BaseMethodsCache;
 
     use ModelNeedValidateCache;
-
-    use SoftDeletesCache;
 
     /**
      * @var AbstractBaseRepository|Cacheable
@@ -129,5 +128,15 @@ abstract class AbstractRepositoryCacheDecorator implements BaseMethodsContract, 
         }
 
         return false;
+    }
+
+    /**
+     * @param BaseModelContract $model
+     * @return $this
+     */
+    public function pushModel(BaseModelContract $model)
+    {
+        call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
+        return $this;
     }
 }
