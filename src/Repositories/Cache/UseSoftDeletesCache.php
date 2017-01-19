@@ -1,6 +1,6 @@
 <?php namespace WebEd\Base\Caching\Repositories\Cache;
 
-trait SoftDeletesCache
+trait UseSoftDeletesCache
 {
     /**
      * @param bool $bool
@@ -8,7 +8,7 @@ trait SoftDeletesCache
      */
     public function withTrashed($bool = true)
     {
-        call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
+        call_user_func_array([$this->getRepository(), __FUNCTION__], func_get_args());
         return $this;
     }
 
@@ -18,7 +18,7 @@ trait SoftDeletesCache
      */
     public function onlyTrashed($bool = true)
     {
-        call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
+        call_user_func_array([$this->getRepository(), __FUNCTION__], func_get_args());
         return $this;
     }
 
