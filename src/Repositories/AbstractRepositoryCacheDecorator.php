@@ -2,6 +2,7 @@
 
 use WebEd\Base\Caching\Repositories\Cache\ModelNeedValidateCache;
 use WebEd\Base\Caching\Repositories\Cache\RepositoryCache;
+use WebEd\Base\Caching\Repositories\Cache\WithViewTrackerCache;
 use WebEd\Base\Core\Models\Contracts\BaseModelContract;
 use WebEd\Base\Core\Repositories\AbstractBaseRepository;
 use WebEd\Base\Core\Repositories\Contracts\BaseMethodsContract;
@@ -11,14 +12,17 @@ use WebEd\Base\Caching\Services\Contracts\CacheableContract;
 use WebEd\Base\Caching\Services\Traits\Cacheable;
 use WebEd\Base\Core\Repositories\Contracts\ModelNeedValidateContract;
 use WebEd\Base\Core\Repositories\Contracts\QueryBuilderContract;
+use WebEd\Base\Core\Repositories\Contracts\WithViewTrackerContract;
 
-abstract class AbstractRepositoryCacheDecorator implements BaseMethodsContract, ModelNeedValidateContract, QueryBuilderContract, CacheableContract
+abstract class AbstractRepositoryCacheDecorator implements BaseMethodsContract, ModelNeedValidateContract, QueryBuilderContract, CacheableContract, WithViewTrackerContract
 {
     use RepositoryCache;
 
     use BaseMethodsCache;
 
     use ModelNeedValidateCache;
+
+    use WithViewTrackerCache;
 
     /**
      * @var AbstractBaseRepository|Cacheable
