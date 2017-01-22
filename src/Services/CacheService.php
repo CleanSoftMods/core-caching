@@ -10,28 +10,28 @@ class CacheService implements CacheServiceContract
      * Cache life time
      * @var int
      */
-    private $cacheLifetime;
+    protected $cacheLifetime;
 
     /**
      * Set cache driver
      * @var string
      */
-    private $cacheDriver;
+    protected $cacheDriver;
 
     /**
      * @var string
      */
-    private $cacheKey;
+    protected $cacheKey;
 
     /**
      * @var CacheableContract
      */
-    private $class;
+    protected $class;
 
     /**
      * @var string
      */
-    private $cacheFile;
+    protected $cacheFile;
 
     public function __construct()
     {
@@ -92,7 +92,7 @@ class CacheService implements CacheServiceContract
      * @param $args
      * @return string
      */
-    private function _generateCacheHash($args)
+    protected function generateCacheHash($args)
     {
         try {
             return md5(serialize($args));
@@ -153,7 +153,7 @@ class CacheService implements CacheServiceContract
             $this->resetCacheKey();
             return $this;
         }
-        $this->cacheKey = get_class($this->class) . '@' . $method . '.' . $this->_generateCacheHash($args);
+        $this->cacheKey = get_class($this->class) . '@' . $method . '.' . $this->generateCacheHash($args);
         return $this;
     }
 
