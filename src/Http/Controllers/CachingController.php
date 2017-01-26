@@ -56,4 +56,88 @@ class CachingController extends BaseAdminController
 
         return redirect()->to(route('admin::webed-caching.index.get'));
     }
+
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function getCreateConfigCache()
+    {
+        \Artisan::call('config:cache');
+
+        $this->flashMessagesHelper
+            ->addMessages('Config cache created', 'success')
+            ->showMessagesOnSession();
+
+        return redirect()->to(route('admin::webed-caching.index.get'));
+    }
+
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function getClearConfigCache()
+    {
+        \Artisan::call('config:clear');
+
+        $this->flashMessagesHelper
+            ->addMessages('Config cache cleared', 'success')
+            ->showMessagesOnSession();
+
+        return redirect()->to(route('admin::webed-caching.index.get'));
+    }
+
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function getOptimizeClass()
+    {
+        \Artisan::call('optimize');
+
+        $this->flashMessagesHelper
+            ->addMessages('Generated optimized class loader', 'success')
+            ->showMessagesOnSession();
+
+        return redirect()->to(route('admin::webed-caching.index.get'));
+    }
+
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function getClearCompiledClass()
+    {
+        \Artisan::call('clear-compiled');
+
+        $this->flashMessagesHelper
+            ->addMessages('Optimized class loader cleared', 'success')
+            ->showMessagesOnSession();
+
+        return redirect()->to(route('admin::webed-caching.index.get'));
+    }
+
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function getCreateRouteCache()
+    {
+        \Artisan::call('route:cache');
+
+        $this->flashMessagesHelper
+            ->addMessages('Route cache created', 'success')
+            ->showMessagesOnSession();
+
+        return redirect()->to(route('admin::webed-caching.index.get'));
+    }
+
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function getClearRouteCache()
+    {
+        \Artisan::call('route:clear');
+
+        $this->flashMessagesHelper
+            ->addMessages('Route cache cleared', 'success')
+            ->showMessagesOnSession();
+
+        return redirect()->to(route('admin::webed-caching.index.get'));
+    }
 }
