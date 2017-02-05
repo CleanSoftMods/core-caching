@@ -1,6 +1,6 @@
 <?php namespace WebEd\Base\Caching\Repositories\Cache;
 
-trait UseSoftDeletesCache
+trait EloquentUseSoftDeletesCache
 {
     /**
      * @param bool $bool
