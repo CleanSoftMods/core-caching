@@ -1,28 +1,20 @@
 <?php namespace WebEd\Base\Caching\Repositories;
 
-use WebEd\Base\Caching\Repositories\Cache\ModelNeedValidateCache;
-use WebEd\Base\Caching\Repositories\Cache\RepositoryCache;
-use WebEd\Base\Caching\Repositories\Cache\WithViewTrackerCache;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
+use WebEd\Base\Caching\Repositories\Traits\RepositoryValidatableCache;
+use WebEd\Base\Core\Criterias\Contracts\CriteriaContract;
+use WebEd\Base\Core\Exceptions\Repositories\WrongCriteria;
 use WebEd\Base\Core\Models\Contracts\BaseModelContract;
 use WebEd\Base\Core\Repositories\AbstractBaseRepository;
-use WebEd\Base\Core\Repositories\Contracts\BaseMethodsContract;
-
-use WebEd\Base\Caching\Repositories\Cache\BaseMethodsCache;
 use WebEd\Base\Caching\Services\Contracts\CacheableContract;
 use WebEd\Base\Caching\Services\Traits\Cacheable;
-use WebEd\Base\Core\Repositories\Contracts\ModelNeedValidateContract;
-use WebEd\Base\Core\Repositories\Contracts\QueryBuilderContract;
-use WebEd\Base\Core\Repositories\Contracts\WithViewTrackerContract;
+use WebEd\Base\Core\Repositories\Contracts\AbstractRepositoryContract;
+use WebEd\Base\Core\Repositories\Contracts\RepositoryValidatorContract;
 
-abstract class AbstractRepositoryCacheDecorator implements BaseMethodsContract, ModelNeedValidateContract, QueryBuilderContract, CacheableContract, WithViewTrackerContract
+abstract class AbstractRepositoryCacheDecorator implements AbstractRepositoryContract, CacheableContract, RepositoryValidatorContract
 {
-    use RepositoryCache;
-
-    use BaseMethodsCache;
-
-    use ModelNeedValidateCache;
-
-    use WithViewTrackerCache;
+    use RepositoryValidatableCache;
 
     /**
      * @var AbstractBaseRepository|Cacheable
@@ -50,16 +42,29 @@ abstract class AbstractRepositoryCacheDecorator implements BaseMethodsContract, 
     }
 
     /**
+     * @return bool
+     */
+    public function isUseCache()
+    {
+        return call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
+    }
+
+    /**
+     * @param bool $bool
+     * @return $this
+     */
+    public function withCache($bool = true)
+    {
+        call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
+        return $this;
+    }
+
+    /**
      * @return AbstractBaseRepository|Cacheable
      */
     public function getRepository()
     {
         return $this->repository;
-    }
-
-    public function getModel()
-    {
-        return $this->repository->getModel();
     }
 
     /**
@@ -88,18 +93,14 @@ abstract class AbstractRepositoryCacheDecorator implements BaseMethodsContract, 
      */
     public function beforeGet($method, $parameters)
     {
-        if ($this->needIgnoreCache()) {
-            return call_user_func_array([$this->repository, $method], $parameters);
-        }
+        $repository = clone $this->repository;
 
         $this->cache->setCacheKey($method, $parameters);
-
-        $repository = clone $this->repository;
 
         /**
          * Clear params
          */
-        $this->repository->resetQuery();
+        $this->repository->resetModel();
 
         return $this->cache->retrieveFromCache(function () use ($repository, $method, $parameters) {
             return call_user_func_array([$repository, $method], $parameters);
@@ -123,46 +124,105 @@ abstract class AbstractRepositoryCacheDecorator implements BaseMethodsContract, 
         return $result;
     }
 
-    public function needIgnoreCache()
-    {
-        $queryBuilderData = $this->getQueryBuilderData();
-
-        if (!empty($queryBuilderData['with'])) {
-            return true;
-        }
-
-        return false;
-    }
-
     /**
-     * @param BaseModelContract $model
-     * @return $this
+     * @return BaseModelContract
      */
-    public function pushModel(BaseModelContract $model)
-    {
-        call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
-        return $this;
-    }
-
-    /**
-     * @param $class
-     * @param $method
-     * @return $this
-     */
-    public function pushCriteria($class, $method)
-    {
-        call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
-        return $this;
-    }
-
-    /**
-     * @param $class
-     * @param $method
-     * @param array $args
-     * @return mixed
-     */
-    public final function getByCriteria($class, $method, array $args)
+    public function getModel()
     {
         return call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
+    }
+
+    /**
+     * Get model table
+     * @return string
+     */
+    public function getTable()
+    {
+        return call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
+    }
+
+    /**
+     * Get primary key
+     * @return string
+     */
+    public function getPrimaryKey()
+    {
+        return call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
+    }
+
+    /**
+     * @param $columns
+     * @return $this
+     */
+    public function select($columns)
+    {
+        call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getCriteria()
+    {
+        return call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
+    }
+
+    /**
+     * @param $criteria
+     * @return $this
+     * @throws WrongCriteria
+     */
+    public function pushCriteria($criteria)
+    {
+        call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
+        return $this;
+    }
+
+    /**
+     * @param $criteria
+     * @return $this
+     */
+    public function dropCriteria($criteria)
+    {
+        call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
+        return $this;
+    }
+
+    /**
+     * @param bool $bool
+     * @return $this
+     */
+    public function skipCriteria($bool = true)
+    {
+        call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function applyCriteria()
+    {
+        call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
+        return $this;
+    }
+
+    /**
+     * @param CriteriaContract|string $criteria
+     * @return Collection|BaseModelContract|LengthAwarePaginator|null|mixed
+     */
+    public function getByCriteria($criteria, array $crossData = [])
+    {
+        return $this->beforeGet(__FUNCTION__, func_get_args());
+    }
+
+    /**
+     * @return $this
+     */
+    public function resetModel()
+    {
+        call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
+        return $this;
     }
 }

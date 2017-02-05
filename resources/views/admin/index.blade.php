@@ -60,7 +60,7 @@
                            data-toggle="confirmation"
                            data-placement="right"
                            title="Are you sure?"
-                           class="btn red">
+                           class="btn purple">
                             Optimize class loader
                         </a>
                         <a href="{{ route('admin::webed-caching.clear-compiled-class.get') }}"

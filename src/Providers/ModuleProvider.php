@@ -1,8 +1,11 @@
 <?php namespace WebEd\Base\Caching\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use WebEd\Base\Caching\Services\CacheItemPool;
 use WebEd\Base\Caching\Services\CacheService;
+use WebEd\Base\Caching\Services\Contracts\CacheItemPoolContract;
 use WebEd\Base\Caching\Services\Contracts\CacheServiceContract;
+use Illuminate\Contracts\Cache\Repository as LaravelRepositoryCacheContract;
 
 class ModuleProvider extends ServiceProvider
 {
@@ -47,6 +50,9 @@ class ModuleProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../../config/webed-caching.php', 'webed-caching');
 
         //Bind some services
+        $this->app->bind(CacheItemPoolContract::class, function () {
+            return new CacheItemPool($this->app->make(LaravelRepositoryCacheContract::class));
+        });
         $this->app->bind(CacheServiceContract::class, CacheService::class);
     }
 }

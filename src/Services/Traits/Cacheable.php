@@ -13,10 +13,6 @@ trait Cacheable
      */
     public function isUseCache()
     {
-        if ($this->cacheEnabled === null) {
-            $this->cacheEnabled = config('webed-caching.repository.enabled');
-        }
-
         return !!$this->cacheEnabled;
     }
 

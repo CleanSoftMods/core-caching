@@ -1,4 +1,4 @@
-<?php namespace WebEd\Base\Caching\Repositories\Cache;
+<?php namespace WebEd\Base\Caching\Repositories\Traits;
 
 trait EloquentUseSoftDeletesCache
 {
@@ -8,7 +8,7 @@ trait EloquentUseSoftDeletesCache
      */
     public function withTrashed($bool = true)
     {
-        call_user_func_array([$this->getRepository(), __FUNCTION__], func_get_args());
+        call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
         return $this;
     }
 
@@ -18,7 +18,7 @@ trait EloquentUseSoftDeletesCache
      */
     public function onlyTrashed($bool = true)
     {
-        call_user_func_array([$this->getRepository(), __FUNCTION__], func_get_args());
+        call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
         return $this;
     }
 

@@ -1,6 +1,6 @@
-<?php namespace WebEd\Base\Caching\Repositories\Cache;
+<?php namespace WebEd\Base\Caching\Repositories\Traits;
 
-trait ModelNeedValidateCache
+trait RepositoryValidatableCache
 {
     /**
      * @return array

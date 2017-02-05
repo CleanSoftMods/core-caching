@@ -13,8 +13,6 @@ class CachingController extends BaseAdminController
         $this->breadcrumbs->addLink('Caching', route('admin::webed-caching.index.get'));
 
         $this->getDashboardMenu($this->module);
-
-        $this->middleware('has-permission:view-cache');
     }
 
     /**
@@ -26,7 +24,7 @@ class CachingController extends BaseAdminController
 
         $this->assets->addJavascripts('jquery-datatables');
 
-        return do_filter($this->module . '.index.get', $this)->viewAdmin('index');
+        return do_filter('webed-caching.index.get', $this)->viewAdmin('index');
     }
 
     /**
