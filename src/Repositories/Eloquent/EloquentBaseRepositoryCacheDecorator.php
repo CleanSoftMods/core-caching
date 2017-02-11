@@ -23,17 +23,17 @@ abstract class EloquentBaseRepositoryCacheDecorator extends AbstractRepositoryCa
 
         $repository = clone $this->repository;
 
-        $model = $repository->getModel();
+        $model = $repository->getBuilderModel();
+        $builder = $repository->getBuilder();
+
         $relations = [];
 
-        if ($model instanceof EloquentModel) {
-            $relations = $model->getRelations();
-        } elseif ($model instanceof EloquentBuilder) {
-            $relations = $model->getEagerLoads();
+        if ($model instanceof EloquentBuilder) {
+            $relations = [$model->toSql()];
         }
 
-        if ($model instanceof BaseModelContract) {
-            $this->cache->setCacheKey($method, array_merge($parameters, $relations));
+        if ($model instanceof BaseModelContract || $model instanceof EloquentBuilder) {
+            $this->cache->setCacheKey($method, array_merge($parameters, $relations, $builder));
         } else {
             $this->cache->setCacheKey($method, $parameters);
         }
@@ -50,7 +50,7 @@ abstract class EloquentBaseRepositoryCacheDecorator extends AbstractRepositoryCa
 
     public function needIgnoreCache()
     {
-        $model = $this->getModel();
+        $model = $this->getBuilderModel();
 
         if ($model instanceof EloquentModel) {
             $relations = $model->getRelations();

@@ -133,6 +133,22 @@ abstract class AbstractRepositoryCacheDecorator implements AbstractRepositoryCon
     }
 
     /**
+     * @return BaseModelContract
+     */
+    public function getBuilderModel()
+    {
+        return call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
+    }
+
+    /**
+     * @return array
+     */
+    public function getBuilder()
+    {
+        return call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
+    }
+
+    /**
      * Get model table
      * @return string
      */
@@ -224,5 +240,13 @@ abstract class AbstractRepositoryCacheDecorator implements AbstractRepositoryCon
     {
         call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
         return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function resetBuilder()
+    {
+        return call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
     }
 }
