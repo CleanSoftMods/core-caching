@@ -3,6 +3,7 @@
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use WebEd\Base\Caching\Repositories\Traits\RepositoryValidatableCache;
+use WebEd\Base\Core\Criterias\AbstractCriteria;
 use WebEd\Base\Core\Criterias\Contracts\CriteriaContract;
 use WebEd\Base\Core\Exceptions\Repositories\WrongCriteria;
 use WebEd\Base\Core\Models\Contracts\BaseModelContract;
@@ -133,22 +134,6 @@ abstract class AbstractRepositoryCacheDecorator implements AbstractRepositoryCon
     }
 
     /**
-     * @return BaseModelContract
-     */
-    public function getBuilderModel()
-    {
-        return call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
-    }
-
-    /**
-     * @return array
-     */
-    public function getBuilder()
-    {
-        return call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
-    }
-
-    /**
      * Get model table
      * @return string
      */
@@ -167,10 +152,10 @@ abstract class AbstractRepositoryCacheDecorator implements AbstractRepositoryCon
     }
 
     /**
-     * @param $columns
+     * @param array $fields
      * @return $this
      */
-    public function select($columns)
+    public function select(array $fields)
     {
         call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
         return $this;
@@ -185,11 +170,12 @@ abstract class AbstractRepositoryCacheDecorator implements AbstractRepositoryCon
     }
 
     /**
-     * @param $criteria
+     * @param AbstractCriteria $criteria
+     * @param array $crossData
      * @return $this
      * @throws WrongCriteria
      */
-    public function pushCriteria($criteria)
+    public function pushCriteria(CriteriaContract $criteria)
     {
         call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
         return $this;
@@ -225,10 +211,10 @@ abstract class AbstractRepositoryCacheDecorator implements AbstractRepositoryCon
     }
 
     /**
-     * @param CriteriaContract|string $criteria
+     * @param AbstractCriteria|string $criteria
      * @return Collection|BaseModelContract|LengthAwarePaginator|null|mixed
      */
-    public function getByCriteria($criteria, array $crossData = [])
+    public function getByCriteria(CriteriaContract $criteria)
     {
         return $this->beforeGet(__FUNCTION__, func_get_args());
     }
@@ -240,13 +226,5 @@ abstract class AbstractRepositoryCacheDecorator implements AbstractRepositoryCon
     {
         call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
         return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function resetBuilder()
-    {
-        return call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
     }
 }
