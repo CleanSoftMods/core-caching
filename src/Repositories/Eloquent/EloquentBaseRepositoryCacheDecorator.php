@@ -1,13 +1,20 @@
 <?php namespace WebEd\Base\Caching\Repositories\Eloquent;
 
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use WebEd\Base\Caching\Repositories\AbstractRepositoryCacheDecorator;
+use WebEd\Base\Caching\Services\Traits\Cacheable;
 use WebEd\Base\Core\Models\Contracts\BaseModelContract;
 use WebEd\Base\Core\Models\EloquentBase;
+use WebEd\Base\Core\Repositories\Eloquent\EloquentBaseRepository;
+use WebEd\Base\Menu\Models\MenuNode;
 
+/**
+ * @property EloquentBaseRepository|Cacheable $repository
+ */
 abstract class EloquentBaseRepositoryCacheDecorator extends AbstractRepositoryCacheDecorator
 {
     /**
@@ -17,38 +24,28 @@ abstract class EloquentBaseRepositoryCacheDecorator extends AbstractRepositoryCa
      */
     public function beforeGet($method, $parameters)
     {
-        if ($this->needIgnoreCache()) {
-            return call_user_func_array([$this->repository, $method], $parameters);
-        }
-
         $repository = clone $this->repository;
 
-        $model = $repository->getModel();
-        $relations = [];
+        $builderData = [$this->getBuilderData()];
+        $criterias = $this->getCriteria();
 
-        if ($model instanceof EloquentBuilder) {
-            $relations = [$model->toSql()];
-        }
-
-        if ($model instanceof BaseModelContract || $model instanceof EloquentBuilder) {
-            $this->cache->setCacheKey($method, array_merge($parameters, $relations));
-        } else {
-            $this->cache->setCacheKey($method, $parameters);
-        }
+        $this->cache->setCacheKey($method, array_merge($parameters, $builderData, $criterias));
 
         /**
          * Clear params
          */
-        $this->repository->resetModel();
+        $this->repository->resetModel()->resetBuilderData();
 
         return $this->cache->retrieveFromCache(function () use ($repository, $method, $parameters) {
             return call_user_func_array([$repository, $method], $parameters);
         });
     }
 
-    public function needIgnoreCache()
+    public function needIgnoreCache($model = null)
     {
-        $model = $this->getModel();
+        if (!$model) {
+            $model = $this->getModel();
+        }
 
         if ($model instanceof EloquentModel) {
             $relations = $model->getRelations();
@@ -63,6 +60,23 @@ abstract class EloquentBaseRepositoryCacheDecorator extends AbstractRepositoryCa
         }
 
         return false;
+    }
+
+    /**
+     * @return array
+     */
+    public function getBuilderData()
+    {
+        return call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
+    }
+
+    /**
+     * @return $this
+     */
+    public function resetBuilderData()
+    {
+        call_user_func_array([$this->repository, __FUNCTION__], func_get_args());
+        return $this;
     }
 
     /**

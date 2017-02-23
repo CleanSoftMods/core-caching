@@ -162,7 +162,7 @@ abstract class AbstractRepositoryCacheDecorator implements AbstractRepositoryCon
     }
 
     /**
-     * @return Collection
+     * @return array
      */
     public function getCriteria()
     {

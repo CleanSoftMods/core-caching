@@ -94,15 +94,7 @@ class CacheService implements CacheServiceContract
      */
     protected function generateCacheHash($args)
     {
-        try {
-            return md5(serialize($args));
-        } catch (\Exception $exception) {
-            $this->flattenExceptionBacktrace($exception);
-            $serialized = serialize($exception);
-
-            $unserialized = unserialize($serialized);
-            return md5($unserialized->getTraceAsString());
-        }
+        return md5(serialize($args));
     }
 
     /**
@@ -272,33 +264,5 @@ class CacheService implements CacheServiceContract
         }
 
         return $flushedKeys;
-    }
-
-    protected function flattenExceptionBacktrace(\Exception $exception)
-    {
-        $traceProperty = (new \ReflectionClass('Exception'))->getProperty('trace');
-        $traceProperty->setAccessible(true);
-        $flatten = function (&$value, $key) {
-            if ($value instanceof \Closure) {
-                $closureReflection = new \ReflectionFunction($value);
-                $value = sprintf(
-                    '(Closure at %s:%s)',
-                    $closureReflection->getFileName(),
-                    $closureReflection->getStartLine()
-                );
-            } elseif (is_object($value)) {
-                $value = sprintf('object(%s)', get_class($value));
-            } elseif (is_resource($value)) {
-                $value = sprintf('resource(%s)', get_resource_type($value));
-            }
-        };
-        do {
-            $trace = $traceProperty->getValue($exception);
-            foreach ($trace as &$call) {
-                array_walk_recursive($call['args'], $flatten);
-            }
-            $traceProperty->setValue($exception, $trace);
-        } while ($exception = $exception->getPrevious());
-        $traceProperty->setAccessible(false);
     }
 }
