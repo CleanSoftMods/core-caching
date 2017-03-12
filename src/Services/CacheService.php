@@ -31,6 +31,11 @@ class CacheService implements CacheServiceContract
     /**
      * @var string
      */
+    protected $cacheGroup;
+
+    /**
+     * @var string
+     */
     protected $cacheFile;
 
     public function __construct()
@@ -84,6 +89,17 @@ class CacheService implements CacheServiceContract
     public function setCacheObject(CacheableContract $item)
     {
         $this->class = $item;
+
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     * @return $this
+     */
+    public function setCacheGroup($name)
+    {
+        $this->cacheGroup = $name;
 
         return $this;
     }
@@ -191,7 +207,7 @@ class CacheService implements CacheServiceContract
             file_put_contents($file, null);
         }
 
-        $className = get_class($this->class);
+        $className = $this->cacheGroup ?: get_class($this->class);
         $currentCacheKey = $this->getCacheKey();
         $cacheKeys = $this->getCacheKeys();
 
@@ -250,7 +266,7 @@ class CacheService implements CacheServiceContract
         $file = $this->getCacheFile();
 
         $flushedKeys = [];
-        $calledClass = get_class($this->class);
+        $calledClass = $this->cacheGroup ?: get_class($this->class);
         $cacheKeys = $this->getCacheKeys();
 
         if (isset($cacheKeys[$calledClass]) && is_array($cacheKeys[$calledClass])) {
