@@ -1,6 +1,6 @@
 <?php namespace WebEd\Base\Caching\Http\Controllers;
 
-use WebEd\Base\Core\Http\Controllers\BaseAdminController;
+use WebEd\Base\Http\Controllers\BaseAdminController;
 
 class CachingController extends BaseAdminController
 {
@@ -34,7 +34,7 @@ class CachingController extends BaseAdminController
     {
         \Artisan::call('cache:clear');
 
-        $this->flashMessagesHelper
+        flash_messages()
             ->addMessages('Cache cleaned', 'success')
             ->showMessagesOnSession();
 
@@ -48,7 +48,7 @@ class CachingController extends BaseAdminController
     {
         \Artisan::call('view:clear');
 
-        $this->flashMessagesHelper
+        flash_messages()
             ->addMessages('Views refreshed', 'success')
             ->showMessagesOnSession();
 
@@ -62,7 +62,7 @@ class CachingController extends BaseAdminController
     {
         \Artisan::call('config:cache');
 
-        $this->flashMessagesHelper
+        flash_messages()
             ->addMessages('Config cache created', 'success')
             ->showMessagesOnSession();
 
@@ -76,7 +76,7 @@ class CachingController extends BaseAdminController
     {
         \Artisan::call('config:clear');
 
-        $this->flashMessagesHelper
+        flash_messages()
             ->addMessages('Config cache cleared', 'success')
             ->showMessagesOnSession();
 
@@ -90,7 +90,7 @@ class CachingController extends BaseAdminController
     {
         \Artisan::call('optimize');
 
-        $this->flashMessagesHelper
+        flash_messages()
             ->addMessages('Generated optimized class loader', 'success')
             ->showMessagesOnSession();
 
@@ -104,7 +104,7 @@ class CachingController extends BaseAdminController
     {
         \Artisan::call('clear-compiled');
 
-        $this->flashMessagesHelper
+        flash_messages()
             ->addMessages('Optimized class loader cleared', 'success')
             ->showMessagesOnSession();
 
@@ -118,7 +118,7 @@ class CachingController extends BaseAdminController
     {
         \Artisan::call('route:cache');
 
-        $this->flashMessagesHelper
+        flash_messages()
             ->addMessages('Route cache created', 'success')
             ->showMessagesOnSession();
 
@@ -132,7 +132,7 @@ class CachingController extends BaseAdminController
     {
         \Artisan::call('route:clear');
 
-        $this->flashMessagesHelper
+        flash_messages()
             ->addMessages('Route cache cleared', 'success')
             ->showMessagesOnSession();
 

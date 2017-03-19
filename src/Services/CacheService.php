@@ -94,12 +94,12 @@ class CacheService implements CacheServiceContract
     }
 
     /**
-     * @param string $name
+     * @param string $groupName
      * @return $this
      */
-    public function setCacheGroup($name)
+    public function setCacheGroup($groupName)
     {
-        $this->cacheGroup = $name;
+        $this->cacheGroup = $groupName;
 
         return $this;
     }

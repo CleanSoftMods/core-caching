@@ -7,7 +7,7 @@ return [
     |--------------------------------------------------------------------------
     */
     'repository' => [
-        'enabled' => env('CACHE_REPOSITORY', true),
+        'enabled' => env('CACHE_REPOSITORY', false),
         /*
         |--------------------------------------------------------------------------
         | Default Cache Store

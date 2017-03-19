@@ -1,13 +1,10 @@
 <?php namespace WebEd\Base\Caching\Services\Traits;
 
+/**
+ * @property bool $cacheEnabled
+ */
 trait Cacheable
 {
-    /**
-     * Determine when enabled cache for query
-     * @var bool
-     */
-    protected $cacheEnabled;
-
     /**
      * @return bool
      */
