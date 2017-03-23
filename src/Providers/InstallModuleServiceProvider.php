@@ -4,7 +4,7 @@ use Illuminate\Support\ServiceProvider;
 
 class InstallModuleServiceProvider extends ServiceProvider
 {
-    protected $module = 'WebEd\Base\Caching';
+    protected $module = 'webed-caching';
 
     /**
      * Bootstrap the application services.

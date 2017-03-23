@@ -44,15 +44,14 @@ class ModuleProvider extends ServiceProvider
      */
     public function register()
     {
+        load_module_helpers(__DIR__);
+
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(BootstrapModuleServiceProvider::class);
 
         $this->mergeConfigFrom(__DIR__ . '/../../config/webed-caching.php', 'webed-caching');
 
         //Bind some services
-        $this->app->bind(CacheItemPoolContract::class, function () {
-            return new CacheItemPool($this->app->make(LaravelRepositoryCacheContract::class));
-        });
         $this->app->bind(CacheServiceContract::class, CacheService::class);
     }
 }
