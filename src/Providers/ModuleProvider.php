@@ -1,11 +1,10 @@
 <?php namespace WebEd\Base\Caching\Providers;
 
+use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
-use WebEd\Base\Caching\Services\CacheItemPool;
 use WebEd\Base\Caching\Services\CacheService;
-use WebEd\Base\Caching\Services\Contracts\CacheItemPoolContract;
 use WebEd\Base\Caching\Services\Contracts\CacheServiceContract;
-use Illuminate\Contracts\Cache\Repository as LaravelRepositoryCacheContract;
+use WebEd\Base\Caching\Http\Middleware\BootstrapModuleMiddleware;
 
 class ModuleProvider extends ServiceProvider
 {
@@ -35,6 +34,10 @@ class ModuleProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../../config' => base_path('config'),
         ], 'config');
+
+        app()->booted(function () {
+            $this->app->register(BootstrapModuleServiceProvider::class);
+        });
     }
 
     /**
@@ -47,11 +50,16 @@ class ModuleProvider extends ServiceProvider
         load_module_helpers(__DIR__);
 
         $this->app->register(RouteServiceProvider::class);
-        $this->app->register(BootstrapModuleServiceProvider::class);
 
         $this->mergeConfigFrom(__DIR__ . '/../../config/webed-caching.php', 'webed-caching');
 
         //Bind some services
         $this->app->bind(CacheServiceContract::class, CacheService::class);
+
+        /**
+         * @var Router $router
+         */
+        $router = $this->app['router'];
+        $router->pushMiddlewareToGroup('web', BootstrapModuleMiddleware::class);
     }
 }
