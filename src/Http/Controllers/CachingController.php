@@ -10,9 +10,13 @@ class CachingController extends BaseAdminController
     {
         parent::__construct();
 
-        $this->breadcrumbs->addLink(trans('webed-caching::base.cache_management'), route('admin::webed-caching.index.get'));
+        $this->middleware(function ($request, $next) {
+            $this->breadcrumbs->addLink(trans('webed-caching::base.cache_management'), route('admin::webed-caching.index.get'));
 
-        $this->getDashboardMenu($this->module);
+            $this->getDashboardMenu($this->module);
+
+            return $next($request);
+        });
     }
 
     /**
