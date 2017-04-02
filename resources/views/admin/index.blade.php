@@ -89,7 +89,7 @@
                     </div>
                 </div>
             </div>
-            @php do_action(BASE_ACTION_META_BOXES, 'main', WEBED_CACHING, null) @endphp
+            @php do_action(BASE_ACTION_META_BOXES, 'main', WEBED_CACHING . '.index', null) @endphp
         </div>
     </div>
 @endsection
