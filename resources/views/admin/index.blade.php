@@ -36,7 +36,7 @@
                             <td>
                                 <a href="{{ route('admin::webed-caching.clear-cms-cache.get') }}"
                                    data-toggle="confirmation"
-                                   data-placement="right"
+                                   data-placement="left"
                                    title="{{ trans('webed-core::messages.are_you_sure') }}"
                                    class="btn btn-danger btn-block">
                                     {{ trans('webed-caching::base.commands.clear_cms_cache.title') }}
@@ -50,7 +50,7 @@
                             <td>
                                 <a href="{{ route('admin::webed-caching.refresh-compiled-views.get') }}"
                                    data-toggle="confirmation"
-                                   data-placement="right"
+                                   data-placement="left"
                                    title="{{ trans('webed-core::messages.are_you_sure') }}"
                                    class="btn btn-warning btn-block">
                                     {{ trans('webed-caching::base.commands.refresh_compiled_views.title') }}
@@ -64,7 +64,7 @@
                             <td>
                                 <a href="{{ route('admin::webed-caching.create-config-cache.get') }}"
                                    data-toggle="confirmation"
-                                   data-placement="right"
+                                   data-placement="left"
                                    title="{{ trans('webed-core::messages.are_you_sure') }}"
                                    class="btn green btn-block">
                                     {{ trans('webed-caching::base.commands.create_config_cache.title') }}
@@ -78,7 +78,7 @@
                             <td>
                                 <a href="{{ route('admin::webed-caching.clear-config-cache.get') }}"
                                    data-toggle="confirmation"
-                                   data-placement="right"
+                                   data-placement="left"
                                    title="{{ trans('webed-core::messages.are_you_sure') }}"
                                    class="btn green-meadow btn-block">
                                     {{ trans('webed-caching::base.commands.clear_config_cache.title') }}
@@ -92,7 +92,7 @@
                             <td>
                                 <a href="{{ route('admin::webed-caching.optimize-class.get') }}"
                                    data-toggle="confirmation"
-                                   data-placement="right"
+                                   data-placement="left"
                                    title="{{ trans('webed-core::messages.are_you_sure') }}"
                                    class="btn purple btn-block">
                                     {{ trans('webed-caching::base.commands.optimize_class_loader.title') }}
@@ -106,7 +106,7 @@
                             <td>
                                 <a href="{{ route('admin::webed-caching.clear-compiled-class.get') }}"
                                    data-toggle="confirmation"
-                                   data-placement="right"
+                                   data-placement="left"
                                    title="{{ trans('webed-core::messages.are_you_sure') }}"
                                    class="btn red-haze btn-block">
                                     {{ trans('webed-caching::base.commands.clear_optimized_class_loader.title') }}
