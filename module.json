@@ -1,4 +1,5 @@
 {
+    "repos": "sgsoft-studio/caching",
     "alias": "webed-caching",
     "name": "Caching",
     "author": "Tedozi Manson - <a href=\"https://github.com/duyphan2502\">https://github.com/duyphan2502</a>",
