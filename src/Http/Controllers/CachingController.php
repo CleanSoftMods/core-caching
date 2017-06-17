@@ -11,7 +11,7 @@ class CachingController extends BaseAdminController
         parent::__construct();
 
         $this->middleware(function ($request, $next) {
-            $this->breadcrumbs->addLink(trans('webed-caching::base.cache_management'), route('admin::webed-caching.index.get'));
+            $this->breadcrumbs->addLink(trans($this->module . '::base.cache_management'), route('admin::webed-caching.index.get'));
 
             $this->getDashboardMenu($this->module);
 
@@ -24,7 +24,7 @@ class CachingController extends BaseAdminController
      */
     public function getIndex()
     {
-        $this->setPageTitle(trans('webed-caching::base.cache_management'));
+        $this->setPageTitle(trans($this->module . '::base.cache_management'));
 
         $this->assets->addJavascripts('jquery-datatables');
 
@@ -39,7 +39,7 @@ class CachingController extends BaseAdminController
         \Artisan::call('cache:clear');
 
         flash_messages()
-            ->addMessages(trans('webed-caching::base.messages.cache_cleaned'), 'success')
+            ->addMessages(trans($this->module . '::base.messages.cache_cleaned'), 'success')
             ->showMessagesOnSession();
 
         return redirect()->to(route('admin::webed-caching.index.get'));
@@ -53,7 +53,7 @@ class CachingController extends BaseAdminController
         \Artisan::call('view:clear');
 
         flash_messages()
-            ->addMessages(trans('webed-caching::base.messages.cache_view_refreshed'), 'success')
+            ->addMessages(trans($this->module . '::base.messages.cache_view_refreshed'), 'success')
             ->showMessagesOnSession();
 
         return redirect()->to(route('admin::webed-caching.index.get'));
@@ -67,7 +67,7 @@ class CachingController extends BaseAdminController
         \Artisan::call('config:cache');
 
         flash_messages()
-            ->addMessages(trans('webed-caching::base.messages.cache_config_created'), 'success')
+            ->addMessages(trans($this->module . '::base.messages.cache_config_created'), 'success')
             ->showMessagesOnSession();
 
         return redirect()->to(route('admin::webed-caching.index.get'));
@@ -81,7 +81,7 @@ class CachingController extends BaseAdminController
         \Artisan::call('config:clear');
 
         flash_messages()
-            ->addMessages(trans('webed-caching::base.messages.cache_config_cleaned'), 'success')
+            ->addMessages(trans($this->module . '::base.messages.cache_config_cleaned'), 'success')
             ->showMessagesOnSession();
 
         return redirect()->to(route('admin::webed-caching.index.get'));
@@ -95,7 +95,7 @@ class CachingController extends BaseAdminController
         \Artisan::call('optimize');
 
         flash_messages()
-            ->addMessages(trans('webed-caching::base.messages.class_loader_optimized'), 'success')
+            ->addMessages(trans($this->module . '::base.messages.class_loader_optimized'), 'success')
             ->showMessagesOnSession();
 
         return redirect()->to(route('admin::webed-caching.index.get'));
@@ -109,7 +109,7 @@ class CachingController extends BaseAdminController
         \Artisan::call('clear-compiled');
 
         flash_messages()
-            ->addMessages(trans('webed-caching::base.messages.class_loader_cleaned'), 'success')
+            ->addMessages(trans($this->module . '::base.messages.class_loader_cleaned'), 'success')
             ->showMessagesOnSession();
 
         return redirect()->to(route('admin::webed-caching.index.get'));
@@ -123,7 +123,7 @@ class CachingController extends BaseAdminController
         \Artisan::call('route:cache');
 
         flash_messages()
-            ->addMessages(trans('webed-caching::base.messages.cache_route_created'), 'success')
+            ->addMessages(trans($this->module . '::base.messages.cache_route_created'), 'success')
             ->showMessagesOnSession();
 
         return redirect()->to(route('admin::webed-caching.index.get'));
@@ -137,7 +137,7 @@ class CachingController extends BaseAdminController
         \Artisan::call('route:clear');
 
         flash_messages()
-            ->addMessages(trans('webed-caching::base.messages.cache_route_cleaned'), 'success')
+            ->addMessages(trans($this->module . '::base.messages.cache_route_cleaned'), 'success')
             ->showMessagesOnSession();
 
         return redirect()->to(route('admin::webed-caching.index.get'));
