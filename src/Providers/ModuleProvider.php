@@ -1,10 +1,10 @@
 <?php namespace WebEd\Base\Caching\Providers;
 
-use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 use WebEd\Base\Caching\Services\CacheService;
 use WebEd\Base\Caching\Services\Contracts\CacheServiceContract;
-use WebEd\Base\Caching\Http\Middleware\BootstrapModuleMiddleware;
 
 class ModuleProvider extends ServiceProvider
 {
@@ -20,9 +20,9 @@ class ModuleProvider extends ServiceProvider
         /*Load translations*/
         $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', 'webed-caching');
 
-        \Event::listen(['cache:cleared'], function () {
-            \File::delete(config('webed-caching.repository.store_keys'));
-            \File::delete(storage_path('framework/cache/cache-service.json'));
+        Event::listen(['cache:cleared'], function () {
+            File::delete(config('webed-caching.repository.store_keys'));
+            File::delete(storage_path('framework/cache/cache-service.json'));
         });
 
         $this->publishes([
@@ -55,11 +55,5 @@ class ModuleProvider extends ServiceProvider
 
         //Bind some services
         $this->app->bind(CacheServiceContract::class, CacheService::class);
-
-        /**
-         * @var Router $router
-         */
-        $router = $this->app['router'];
-        $router->pushMiddlewareToGroup('web', BootstrapModuleMiddleware::class);
     }
 }
