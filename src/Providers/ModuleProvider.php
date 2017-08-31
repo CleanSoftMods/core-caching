@@ -34,10 +34,6 @@ class ModuleProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../../config' => base_path('config'),
         ], 'config');
-
-        app()->booted(function () {
-            $this->app->register(BootstrapModuleServiceProvider::class);
-        });
     }
 
     /**
@@ -50,6 +46,7 @@ class ModuleProvider extends ServiceProvider
         load_module_helpers(__DIR__);
 
         $this->app->register(RouteServiceProvider::class);
+        $this->app->register(BootstrapModuleServiceProvider::class);
 
         $this->mergeConfigFrom(__DIR__ . '/../../config/webed-caching.php', 'webed-caching');
 
